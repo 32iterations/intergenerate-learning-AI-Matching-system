@@ -1,0 +1,23 @@
+# 環境變數檔案(包含敏感資訊)
+.env
+
+# Node modules
+node_modules/
+
+# 建置輸出
+dist/
+*.log
+
+# IDE 設定
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# 作業系統檔案
+.DS_Store
+Thumbs.db
+
+# 測試覆蓋率報告
+coverage/
+.nyc_output/

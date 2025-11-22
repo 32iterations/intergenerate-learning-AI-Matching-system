@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-TW">
+  <head>
+    <meta charset="UTF-8" />
+    <title>隔代共學 AI 媒合系統｜赤土崎多功能館 DEMO</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      name="description"
+      content="以 AI 媒合長者與幼兒家庭，在新竹市赤土崎多功能館實現在地隔代共學。"
+    />
+    <link rel="stylesheet" href="./styles.css" />
+    <!-- Spline viewer for 3D 赤土崎多功能館場景（請將 url 換成自己的 Spline 項目） -->
+    <script
+      type="module"
+      src="https://unpkg.com/@splinetool/viewer@1.9.82/build/spline-viewer.js"
+    ></script>
+  </head>
+  <body
+    data-page-topic="新竹市 赤土崎多功能館 隔代共學 AI 媒合系統 老幼共好 在地照護"
+  >
+    <header class="site-header">
+      <div class="container header-inner">
+        <div class="brand">
+          <span class="brand-mark">赤</span>
+          <div class="brand-text">
+            <div class="brand-title">赤土崎多功能館</div>
+            <div class="brand-subtitle">隔代共學 AI 媒合系統 DEMO</div>
+          </div>
+        </div>
+        <nav class="nav">
+          <a href="#flow">服務流程</a>
+          <a href="#gallery">情境圖像</a>
+          <a href="#pitch-coach">Pitch Coach</a>
+        </nav>
+      </div>
+    </header>
+
+    <main>
+      <!-- Hero：一句話說清楚 + 3D 場景 -->
+      <section id="hero" class="section hero">
+        <div class="container hero-grid">
+          <div class="hero-copy">
+            <h1>把「阿公阿嬤」和「小朋友」在赤土崎館裡好好湊在一起</h1>
+            <p class="hero-lead">
+              我們用 AI 讀懂家庭與長者的需求，媒合最適合的共學活動與時段，
+              讓工作中的父母放心，把陪伴的溫度留在新竹市赤土崎多功能館。
+            </p>
+            <div class="hero-tags">
+              <span class="pill">在地社福 × 隔代共學</span>
+              <span class="pill">AI 媒合引擎</span>
+              <span class="pill">赤土崎多功能館</span>
+            </div>
+            <div class="hero-actions">
+              <button id="pitch-generate-btn" class="btn btn-primary">
+                幫我用 30 秒講給評審聽
+              </button>
+              <button id="image-refresh-btn" class="btn btn-ghost">
+                依頁面內容自動配圖
+              </button>
+            </div>
+            <p class="hint">
+              ⓘ DEMO：左邊是服務故事，右邊可以嵌入 Spline
+              做出赤土崎館的 3D 場景。
+            </p>
+          </div>
+          <div class="hero-visual">
+            <div class="hero-visual-inner">
+              <!-- Spline 3D 場景：請替換成自己的 public Spline URL -->
+              <spline-viewer
+                url="https://prod.spline.design/your-spline-scene-link/scene.splinecode"
+                class="hero-spline"
+                aria-label="赤土崎多功能館 3D 場景預留區"
+              ></spline-viewer>
+              <div class="hero-overlay-card">
+                <div class="hero-overlay-label">今日即時需求</div>
+                <ul class="hero-overlay-list">
+                  <li>🏃‍♀️ 媽媽：今晚加班，需要 18:00–20:00 托育</li>
+                  <li>🧓 長者 A：想每週一次陪讀小學二年級</li>
+                  <li>👨‍👩‍👧 家庭 B：週六上午需要共學陪伴</li>
+                </ul>
+                <div class="hero-overlay-footer">AI 正在媒合赤土崎館空檔時段…</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 服務價值流程 -->
+      <section id="flow" class="section flow">
+        <div class="container">
+          <h2>從一個需求，到一場在赤土崎館發生的故事</h2>
+          <p class="section-lead">
+            評審只要看這一列，就能理解我們的服務如何把「家庭、長者、館舍」串起來。
+          </p>
+
+          <div class="flow-grid">
+            <div class="flow-step">
+              <div class="flow-step-index">01</div>
+              <h3>家庭線上填寫需求</h3>
+              <p>
+                在 LINE Bot 或市府平台輸入：「週三晚上、需要接送、孩子是國小三年級」等資訊。
+              </p>
+            </div>
+          <div class="flow-rive-card" aria-label="隔代共學流程動畫示意">
+            <div class="flow-rive-inner">
+              <div class="flow-rive-copy">
+                <h3>用動畫看懂一趟隔代共學旅程</h3>
+                <p>
+                  這段 Rive 動畫從「線上填表」一路演到「在赤土崎館共學」，
+                  適合在簡報、入口大廳看板或黑客松 DEMO 時輪播，
+                  幫助評審和市府一眼看懂服務流程。
+                </p>
+              </div>
+              <div class="rive-wrapper">
+                <canvas
+                  id="rive-flow-canvas"
+                  width="640"
+                  height="360"
+                  aria-label="Intergenerational flow animation"
+                ></canvas>
+                <p class="rive-helper-text">
+                  DEMO 提示：請將實際的 Rive 動畫檔放在
+                  <code>frontend/assets/rive/intergen-flow.riv</code>，
+                  本頁會自動載入並播放。
+                </p>
+              </div>
+            </div>
+          </div>
+            <div class="flow-step">
+              <div class="flow-step-index">02</div>
+              <h3>長者與館舍提供可用時段</h3>
+              <p>
+                赤土崎多功能館登錄志工長者的專長與可配合時段，館方設定場地容量與安全規範。
+              </p>
+            </div>
+            <div class="flow-step">
+              <div class="flow-step-index">03</div>
+              <h3>AI 媒合最適合的共學組合</h3>
+              <p>
+                系統綜合安全性、交通、偏好與歷史回饋，推薦 2–3
+                組候選方案由社工最後確認。
+              </p>
+            </div>
+            <div class="flow-step">
+              <div class="flow-step-index">04</div>
+              <h3>在赤土崎館落地與持續優化</h3>
+              <p>
+                每次活動後收集家長與長者的感受與建議，作為下次媒合與課程設計的依據。
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="floor-usage" class="section section--padded floor-usage">
+        <div class="section-inner">
+          <div class="section-header">
+            <div>
+              <p class="section-kicker">赤土崎多功能館 · 即時空間一眼看懂</p>
+              <h2>館內平面圖 + 即時空間利用率</h2>
+              <p class="section-subtitle">
+                以 1F 日照中心為核心，連結 2F 公共托嬰、3F 家庭支持、4F 青少年空間，
+                這張卡片讓市府與社工能即時掌握每一層樓目前的「鬆、適中、偏滿」。
+              </p>
+            </div>
+          </div>
+
+          <div class="floor-usage-grid">
+            <div class="floor-plan-shell">
+              <div class="floor-plan-controls">
+                <div>
+                  <h3 id="floor-plan-title" class="floor-plan-title">1F 長者日照中心</h3>
+                  <p id="floor-plan-subtitle" class="floor-plan-subtitle">
+                    失智專區＋一般日照＋共用餐廳與庭園，適合安排隔代共學故事時間與手作課。
+                  </p>
+                </div>
+                <label class="floor-plan-select">
+                  <span>切換樓層</span>
+                  <select id="floor-select">
+                    <option value="1F" selected>1F 長照日照中心</option>
+                    <option value="2F">2F 公共托嬰中心</option>
+                    <option value="3F">3F 家庭支持服務中心</option>
+                    <option value="4F">4F 青少年活動空間</option>
+                  </select>
+                </label>
+              </div>
+              <div id="floor-plan-grid" class="floor-plan-grid" aria-live="polite"></div>
+            </div>
+
+            <aside class="floor-legend-shell" aria-label="樓層空間利用率總覽">
+              <header class="floor-legend-header">
+                <h3>目前空間使用狀態</h3>
+                <p class="floor-legend-subtitle">
+                  條列出每個功能空間目前的使用率，配合顏色與條狀圖，一眼找出適合插入新活動的空間。
+                </p>
+              </header>
+              <ul id="floor-legend-list" class="floor-legend-list"></ul>
+              <div class="floor-ai-footer">
+                <button id="ai-floor-summary-btn" class="btn btn--ghost" type="button">
+                  請 AI 幫我找出「現在最適合插入隔代共學」的場地
+                </button>
+                <p id="ai-floor-summary-output" class="ai-output"></p>
+                <div class="floor-admin-link">
+                  <a href="./admin.html" class="btn btn--text">
+                    ➜ 切換到「管理端 Dashboard」看更多即時指標
+                  </a>
+                </div>
+              </div>
+            </aside>
+          </div>
+        </div>
+      </section>
+
+      <!-- 情境圖像自動配圖區 -->
+      <section id="gallery" class="section gallery">
+        <div class="container">
+          <div class="section-header-row">
+            <div>
+              <h2>情境圖像自動配圖</h2>
+              <p class="section-lead">
+                系統會根據目前頁面主題，從開源圖庫搜尋「台灣、亞洲、祖孫共學」相關照片，幫助評審快速有畫面。
+              </p>
+            </div>
+            <button id="image-refresh-btn-top" class="btn btn-secondary">
+              重新配圖
+            </button>
+          </div>
+
+          <div id="image-grid" class="image-grid" aria-live="polite">
+            <!-- 由 main.js 動態插入圖片 -->
+          </div>
+
+          <p class="image-attribution">
+            Photos from Pexels — 僅供黑客松 DEMO，實際上線將依官方授權規範標示。
+          </p>
+        </div>
+      </section>
+
+      <!-- Gemini 3 Pro Pitch Coach -->
+      <section id="pitch-coach" class="section pitch-coach">
+        <div class="container pitch-grid">
+          <div>
+            <h2>Gemini 3 Pro Pitch Coach：幫你翻譯成「評審聽得懂」的語言</h2>
+            <p class="section-lead">
+              填入你現在腦中的重點，讓 Gemini 3 Pro
+              幫你整理成適合對市府長官、社福評審說的 30 秒版本。
+            </p>
+            <textarea
+              id="pitch-notes"
+              class="pitch-notes"
+              rows="6"
+              placeholder="例如：想強調 AI 可以幫社工省多少時間、長者不會被當工具人、家長對安全的疑慮如何解決⋯⋯"
+            ></textarea>
+            <div class="pitch-actions">
+              <button id="pitch-generate-btn-bottom" class="btn btn-primary">
+                產生 30 秒中文 Pitch
+              </button>
+              <button id="pitch-generate-en-btn" class="btn btn-ghost">
+                產生 60 秒英文 Pitch
+              </button>
+            </div>
+          </div>
+          <div class="pitch-output-card">
+            <div class="pitch-output-label">AI 建議說法</div>
+            <div id="pitch-output" class="pitch-output">
+              （按下上方按鈕後，Gemini 3 Pro 會在這裡幫你把想法整理成一段流暢的介紹）
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="container footer-inner">
+        <div>
+          <div class="footer-title">赤土崎多功能館 × 隔代共學 AI 媒合系統</div>
+          <div class="footer-sub">
+            此頁為黑客松 DEMO
+            範例，實際市府導入時可接軌現有長照、托育與志工系統。
+          </div>
+        </div>
+        <div class="footer-meta">
+          <span>Powered by Puter.js + Gemini 3 Pro</span>
+          <span>Images via Pexels API</span>
+        </div>
+      </div>
+    </footer>
+
+    <!-- Puter.js：使用 Gemini 3 Pro，不需額外 API key -->
+    <script src="https://js.puter.com/v2/"></script>
+    <!-- 主程式邏輯 -->
+    <!-- Rive Web Canvas runtime for Flow 區動畫 -->
+    <script src="https://unpkg.com/@rive-app/canvas@latest"></script>
+    <script type="module" src="./main.js"></script>
+  </body>
+</html>

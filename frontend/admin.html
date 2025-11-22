@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+  <head>
+    <meta charset="UTF-8" />
+    <title>赤土崎多功能館 · 隔代共學管理端 Dashboard DEMO</title>
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, viewport-fit=cover"
+    />
+    <link rel="stylesheet" href="./styles.css" />
+    <!-- Puter.js：依照權威實作方式載入 Gemini 3 Pro -->
+    <script src="https://js.puter.com/v2/"></script>
+  </head>
+  <body class="page">
+    <header class="site-header site-header--sub">
+      <div class="site-header-inner">
+        <div class="logo">
+          <span class="logo-mark">E</span>
+          <span class="logo-text">
+            赤土崎多功能館 · 隔代共學管理端
+            <span class="logo-subtext">Intergen Ops Dashboard · DEMO</span>
+          </span>
+        </div>
+        <nav class="nav">
+          <a class="nav-link" href="./index.html">⬅ 回到前台體驗頁</a>
+        </nav>
+      </div>
+    </header>
+
+    <main class="main">
+      <section class="section section--padded">
+        <div class="section-inner">
+          <div class="section-header">
+            <div>
+              <p class="section-kicker">Ops 視角 · 館內一日即時總覽</p>
+              <h1>隔代共學管理端 Dashboard</h1>
+              <p class="section-subtitle">
+                這個頁面示範市府與館內同仁實際打開系統時會看到的畫面：
+                從今日場次、互動品質、空間利用率，到 AI 協助巡檢與排程建議。
+              </p>
+            </div>
+          </div>
+
+          <div class="metric-grid">
+            <article class="metric-card" id="metric-total-sessions">
+              <p class="metric-label">今日隔代共學場次</p>
+              <p class="metric-value">—</p>
+              <p class="metric-hint">包含 1F 長照、2F 托嬰與 4F 青少年志工活動。</p>
+            </article>
+            <article class="metric-card" id="metric-quality-good">
+              <p class="metric-label">互動品質「良好以上」比例</p>
+              <p class="metric-value">—</p>
+              <p class="metric-hint">由老師與長輩簡易回饋 + AI 判讀綜合而成。</p>
+            </article>
+            <article class="metric-card" id="metric-space-hot">
+              <p class="metric-label">最熱門空間</p>
+              <p class="metric-value">—</p>
+              <p class="metric-hint">依據館內平面圖卡片之即時空間利用率推算。</p>
+            </article>
+          </div>
+
+          <div class="dashboard-grid">
+            <section class="dashboard-panel">
+              <header class="dashboard-panel-header">
+                <h2>今日隔代共學時段一覽</h2>
+                <p class="dashboard-panel-subtitle">
+                  結合 1F、2F、4F 的共學活動，由管理端一眼掌握場次、位置與風險燈號。
+                </p>
+              </header>
+              <div class="table-wrapper">
+                <table class="data-table" aria-label="今日隔代共學場次表">
+                  <thead>
+                    <tr>
+                      <th>時段</th>
+                      <th>樓層 / 空間</th>
+                      <th>主題</th>
+                      <th>參與對象</th>
+                      <th>互動品質</th>
+                      <th>狀態</th>
+                    </tr>
+                  </thead>
+                  <tbody id="sessions-table-body"></tbody>
+                </table>
+              </div>
+            </section>
+
+            <section class="dashboard-panel">
+              <header class="dashboard-panel-header">
+                <h2>樓層空間利用率 · 管理者總覽</h2>
+                <p class="dashboard-panel-subtitle">
+                  與前台的「平面圖 + 即時空間利用率」卡片連動，這裡用更管理者的角度呈現每層樓與關鍵空間的狀態。
+                </p>
+              </header>
+              <div id="admin-floor-summary" class="admin-floor-summary"></div>
+            </section>
+          </div>
+
+          <section class="dashboard-panel dashboard-panel--ai">
+            <header class="dashboard-panel-header">
+              <h2>用 Gemini 3 Pro 幫我巡檢今天的隔代共學</h2>
+              <p class="dashboard-panel-subtitle">
+                下方 Demo 會把「今日場次＋樓層利用率」餵給 AI，產生 3–4 點管理建議，
+                適合投影片或每日交班簡報直接貼上。
+              </p>
+            </header>
+            <div class="ai-console">
+              <button id="ai-ops-insights-btn" class="btn" type="button">
+                產生今日「Ops 巡檢重點」建議
+              </button>
+              <p class="ai-console-hint">
+                （依照權威實作方式，前端會呼叫 <code>puter.ai.chat(..., { model: 'gemini-3-pro-preview' })</code>）
+              </p>
+              <div id="ai-ops-output" class="ai-output ai-output--block"></div>
+            </div>
+          </section>
+        </div>
+      </section>
+    </main>
+
+    <!-- Rely on the same design tokens & layout utilities as前台頁面 -->
+    <script type="module" src="./admin.js"></script>
+  </body>
+</html>

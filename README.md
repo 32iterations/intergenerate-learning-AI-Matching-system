@@ -1,0 +1,109 @@
+# 隔代共學 AI 媒合系統 — Hackathon DEMO Skeleton
+
+這個專案骨架是為了 **新竹市赤土崎多功能館「隔代共學 AI 媒合系統」** 黑客松 DEMO 設計：
+
+- 🎨 前端：`frontend/` — 靜態 HTML / CSS / JS，包含：
+  - Hero 區塊（赤土崎 3D 場景嵌入位子）
+  - 「價值流程」敘事區塊
+  - 以 **Puter.js + Gemini 3 Pro** 實作的 Pitch Coach 區塊
+  - 可自動呼叫圖片 API 的「情境圖像自動配圖」區塊
+- 🧠 AI / 工具：
+  - `server/` — Node + TypeScript：
+    - `/api/images`：代理呼叫 Pexels API 做圖片搜尋（前端使用）
+    - `/mcp`：同一個程式同時作為 MCP 伺服器，提供 `search_images` 工具給 Claude Code
+- 🧩 Claude 整合：
+  - `CLAUDE.md`：給 Claude Code 的專案說明與偏好
+  - `skills/tw-frontend-intergen/SKILL.md`：在地化的前端設計 Skill，可打包成 zip 上傳到 Claude Skills
+
+---
+
+## 目標
+
+1. 讓評審一眼看懂：**誰被服務、AI 做什麼、落地在哪裡（赤土崎館）**
+2. 在 DEMO 畫面中，同時看到：
+   - 有「哇」感的 3D / 動畫（預留 Spline / Rive 嵌入位置）
+   - 清楚的服務流程與價值主張
+   - 真的有在跑的 LLM（Gemini 3 Pro 幫你寫 Pitch / 文字）
+
+---
+
+## 快速啟動
+
+### 1. 啟動影像搜尋 + MCP 伺服器
+
+```bash
+cd server
+npm install
+cp .env.example .env  # 填入你的 Pexels API key
+npm run dev
+```
+
+- 伺服器預設在 `http://localhost:3000`
+  - `GET /api/images?q=...`：回傳 `{ images: [...] }`
+  - `POST /mcp`：MCP HTTP endpoint
+
+將伺服器加入 Claude Code 的 MCP 設定：
+
+```bash
+claude mcp add --transport http hsinchu-images http://localhost:3000/mcp
+```
+
+### 2. 開啟前端 DEMO
+
+前端是純靜態檔案，任何靜態 server 都可以，例如：
+
+```bash
+cd frontend
+python -m http.server 4173
+# 或用你喜歡的 dev server
+```
+
+然後瀏覽 `http://localhost:4173`。
+
+---
+
+## Pexels API 設定
+
+1. 前往 Pexels 開發者頁申請免費 API key（用於非商業 demo 足夠）。  
+2. 把 key 寫入 `server/.env` 的 `PEXELS_API_KEY`。
+3. Demo 會自動在頁面顯示「Photos from Pexels」作為授權標示。
+
+> ⚠️ 真實上線時，請不要把 API key 放在前端程式碼中，本專案骨架已將呼叫放在後端 `server/`。
+
+---
+
+## Claude Skills 使用方式（前端設計最佳實踐）
+
+1. 將 `skills/tw-frontend-intergen` 資料夾獨立壓成一個 zip（例如 `tw-frontend-intergen.zip`）。
+2. 到 claude.ai → Settings → Skills → 上傳這個 zip。
+3. 在 Claude Code 中工作時，只要你提到：
+   - 「調整前端 UI」
+   - 「改 hero 區 layout」
+   - 「幫我美化赤土崎 demo 頁」
+
+   Claude 會自動考慮這個 Skill，並依照其中的在地化設計準則（台灣字型、色彩、Layout）來改 code。
+
+---
+
+## 專案結構概覽
+
+```text
+intergen-hsinchu-hackathon/
+├─ README.md                 # 本說明檔
+├─ CLAUDE.md                 # 給 Claude Code 的專案說明
+├─ frontend/
+│  ├─ index.html             # DEMO 主頁（含 Puter.js, Spline 位置）
+│  ├─ styles.css             # 主題配色、排版、元件樣式
+│  └─ main.js                # 圖片自動配圖 + Gemini Pitch Coach
+├─ server/
+│  ├─ package.json
+│  ├─ tsconfig.json
+│  ├─ .env.example
+│  └─ src/
+│     └─ server.ts           # Express + MCP + Pexels 圖片搜尋
+└─ skills/
+   └─ tw-frontend-intergen/
+      └─ SKILL.md            # 為本專案打造的前端設計 Skill
+```
+
+你可以直接在這個資料夾跑 `claude code .`，把它當成黑客松專案的起點來擴充。
