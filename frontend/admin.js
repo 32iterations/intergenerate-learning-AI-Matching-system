@@ -3,6 +3,32 @@
 // - 依據樓層利用率做簡單統計
 // - 透過 Puter.js / Gemini 3 Pro 產生 Ops 巡檢建議
 
+// ===== 錯誤處理工具函數 =====
+
+/**
+ * 判斷錯誤類型並回傳使用者友善的訊息
+ * @param {Error} error - 錯誤物件
+ * @param {string} context - 錯誤發生的情境
+ * @returns {string} 使用者友善的錯誤訊息
+ */
+function getUserFriendlyErrorMessage(error, context = "操作") {
+  if (!navigator.onLine) {
+    return "網路連線中斷,請檢查網路設定後再試一次。";
+  }
+
+  if (error.message && error.message.includes("puter")) {
+    return "Puter.js 服務無法連線,請確認網頁已正確載入 Puter.js 腳本。";
+  }
+
+  if (error.message && error.message.includes("ECONNREFUSED")) {
+    return "無法連線到伺服器,請確認伺服器是否已啟動（http://localhost:3000）。";
+  }
+
+  return `${context}時發生錯誤,請稍後再試。詳細訊息: ${error.message}`;
+}
+
+// ===== 資料定義 =====
+
 const TODAY_SESSIONS = [
   {
     time: "09:30–10:20",
@@ -196,9 +222,9 @@ ${JSON.stringify(payload, null, 2)}
 
       output.textContent = text;
     } catch (err) {
-      console.error("[AI ops insights] error:", err);
-      output.textContent =
-        "AI 服務目前無法連線（可能是 Puter.js 未載入或網路問題），請稍後再試。";
+      console.error("[initAiOpsInsights] 錯誤:", err);
+      const errorMessage = getUserFriendlyErrorMessage(err, "產生 AI 巡檢建議");
+      output.textContent = errorMessage;
     } finally {
       btn.disabled = false;
       btn.textContent = "產生今日「Ops 巡檢重點」建議";

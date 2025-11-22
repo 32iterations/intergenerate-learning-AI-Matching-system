@@ -10,6 +10,8 @@ dotenv.config();
 
 const PEXELS_API_KEY = process.env.PEXELS_API_KEY || "";
 const PORT = parseInt(process.env.PORT || "3000", 10);
+const DEFAULT_SEARCH_QUERY = "Taiwan grandparents children community center";
+const PEXELS_API_BASE_URL = "https://api.pexels.com/v1/search";
 
 if (!PEXELS_API_KEY) {
   console.warn(
@@ -17,6 +19,29 @@ if (!PEXELS_API_KEY) {
   );
 }
 
+// Pexels API 回應型別定義
+type PexelsPhoto = {
+  id: number;
+  photographer: string;
+  photographer_url?: string;
+  alt?: string;
+  src?: {
+    original?: string;
+    large2x?: string;
+    large?: string;
+    medium?: string;
+    small?: string;
+  };
+};
+
+type PexelsResponse = {
+  photos?: PexelsPhoto[];
+  total_results?: number;
+  page?: number;
+  per_page?: number;
+};
+
+// 圖片結果型別
 export type ImageResult = {
   id: number;
   url: string;
@@ -31,8 +56,8 @@ export async function searchPexelsImages(query: string, perPage = 6): Promise<Im
     throw new Error("PEXELS_API_KEY is missing. Please set it in server/.env.");
   }
 
-  const safeQuery = query.trim() || "Taiwan grandparents children community center";
-  const url = new URL("https://api.pexels.com/v1/search");
+  const safeQuery = query.trim() || DEFAULT_SEARCH_QUERY;
+  const url = new URL(PEXELS_API_BASE_URL);
   url.searchParams.set("query", safeQuery);
   url.searchParams.set("per_page", perPage.toString());
 
@@ -47,10 +72,10 @@ export async function searchPexelsImages(query: string, perPage = 6): Promise<Im
     throw new Error(`Pexels API error: ${resp.status} - ${text}`);
   }
 
-  const data = (await resp.json()) as any;
+  const data = (await resp.json()) as PexelsResponse;
 
   const photos = Array.isArray(data.photos) ? data.photos : [];
-  return photos.map((p: any) => {
+  return photos.map((p: PexelsPhoto) => {
     const src = p.src || {};
     const url: string =
       src.medium || src.large2x || src.large || src.small || src.original || "";
@@ -132,26 +157,37 @@ export function createApp() {
   app.get("/api/images", async (req, res) => {
     try {
       const q = typeof req.query.q === "string" ? req.query.q : "";
-      const images = await searchPexelsImages(q || "Taiwan grandparents children community center");
+      const images = await searchPexelsImages(q || DEFAULT_SEARCH_QUERY);
       res.json({ images });
     } catch (err: any) {
       console.error("[/api/images] error:", err);
-      res.status(500).json({ error: "Image search failed", detail: String(err?.message || err) });
+      res.status(500).json({
+        error: "Image search failed",
+        detail: String(err?.message || err)
+      });
     }
   });
 
   // MCP over HTTP endpoint
   app.post("/mcp", async (req, res) => {
-    const transport = new StreamableHTTPServerTransport({
-      enableJsonResponse: true,
-    });
+    try {
+      const transport = new StreamableHTTPServerTransport({
+        enableJsonResponse: true,
+      });
 
-    res.on("close", () => {
-      transport.close();
-    });
+      res.on("close", () => {
+        transport.close();
+      });
 
-    await mcpServer.connect(transport);
-    await transport.handleRequest(req, res, req.body);
+      await mcpServer.connect(transport);
+      await transport.handleRequest(req, res, req.body);
+    } catch (err: any) {
+      console.error("[/mcp] error:", err);
+      res.status(500).json({
+        error: "MCP request failed",
+        detail: String(err?.message || err)
+      });
+    }
   });
 
   return app;

@@ -3,6 +3,36 @@
 // - 呼叫後端 /api/images 取得 Pexels 搜尋結果並渲染
 // - 透過 Puter.js 呼叫 Gemini 3 Pro 做 Pitch Coach
 
+// ===== 錯誤處理工具函數 =====
+
+/**
+ * 判斷錯誤類型並回傳使用者友善的訊息
+ * @param {Error} error - 錯誤物件
+ * @param {string} context - 錯誤發生的情境
+ * @returns {string} 使用者友善的錯誤訊息
+ */
+function getUserFriendlyErrorMessage(error, context = "操作") {
+  if (!navigator.onLine) {
+    return "網路連線中斷,請檢查網路設定後再試一次。";
+  }
+
+  if (error.message && error.message.includes("ECONNREFUSED")) {
+    return "無法連線到伺服器,請確認伺服器是否已啟動（http://localhost:3000）。";
+  }
+
+  if (error.message && error.message.includes("404")) {
+    return "找不到請求的資源,請聯絡技術支援。";
+  }
+
+  if (error.message && error.message.includes("500")) {
+    return "伺服器發生錯誤,請稍後再試或聯絡技術支援。";
+  }
+
+  return `${context}時發生錯誤,請稍後再試。`;
+}
+
+// ===== 頁面主題與圖片搜尋 =====
+
 function getPageTopic() {
   const body = document.body;
   const topicAttr = body.dataset.pageTopic || "";
@@ -20,13 +50,21 @@ function getPageTopic() {
 }
 
 async function fetchImages(queryOverride) {
-  const query = (queryOverride || getPageTopic()).slice(0, 120);
-  const resp = await fetch(`/api/images?q=${encodeURIComponent(query)}`);
-  if (!resp.ok) {
-    throw new Error(`Image API error: ${resp.status}`);
+  try {
+    const query = (queryOverride || getPageTopic()).slice(0, 120);
+    const resp = await fetch(`/api/images?q=${encodeURIComponent(query)}`);
+
+    if (!resp.ok) {
+      const errorData = await resp.json().catch(() => ({}));
+      throw new Error(errorData.detail || `HTTP ${resp.status}`);
+    }
+
+    const data = await resp.json();
+    return data.images || [];
+  } catch (error) {
+    console.error("[fetchImages] 錯誤:", error);
+    throw error;
   }
-  const data = await resp.json();
-  return data.images || [];
 }
 
 function renderImages(images) {
@@ -77,11 +115,11 @@ async function handleImageRefresh(clickedButton) {
     const images = await fetchImages();
     renderImages(images);
   } catch (err) {
-    console.error(err);
+    console.error("[handleImageRefresh] 錯誤:", err);
     const grid = document.getElementById("image-grid");
     if (grid) {
-      grid.innerHTML =
-        '<div class="image-empty">圖片服務暫時無法使用，請確認 server 是否有啟動（http://localhost:3000）。</div>';
+      const errorMessage = getUserFriendlyErrorMessage(err, "載入圖片");
+      grid.innerHTML = `<div class="image-empty">${errorMessage}</div>`;
     }
   } finally {
     buttons.forEach((btn) => {
@@ -173,9 +211,9 @@ async function runPitchCoach({ language }) {
 
     outputEl.textContent = text;
   } catch (err) {
-    console.error(err);
-    outputEl.textContent =
-      "Pitch 產生失敗，請確認目前網路連線與 Puter.js 服務是否正常。";
+    console.error("[runPitchCoach] 錯誤:", err);
+    const errorMessage = getUserFriendlyErrorMessage(err, "產生 Pitch");
+    outputEl.textContent = errorMessage;
   }
 }
 
