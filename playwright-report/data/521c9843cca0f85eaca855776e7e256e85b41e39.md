@@ -1,0 +1,60 @@
+# Page snapshot
+
+```yaml
+- generic [active] [ref=e1]:
+  - banner [ref=e2]:
+    - generic [ref=e3]:
+      - generic [ref=e4]:
+        - text: E
+        - generic [ref=e5]: 赤土崎多功能館 · 隔代共學管理端 Intergen Ops Dashboard · DEMO
+      - navigation [ref=e6]:
+        - link "⬅ 回到前台體驗頁" [ref=e7] [cursor=pointer]:
+          - /url: ./index.html
+  - main [ref=e8]:
+    - generic [ref=e10]:
+      - generic [ref=e12]:
+        - paragraph [ref=e13]: Ops 視角 · 館內一日即時總覽
+        - heading "隔代共學管理端 Dashboard" [level=1] [ref=e14]
+        - paragraph [ref=e15]: 這個頁面示範市府與館內同仁實際打開系統時會看到的畫面： 從今日場次、互動品質、空間利用率，到 AI 協助巡檢與排程建議。
+      - generic [ref=e16]:
+        - article [ref=e17]:
+          - paragraph [ref=e18]: 今日隔代共學場次
+          - paragraph [ref=e19]: —
+          - paragraph [ref=e20]: 包含 1F 長照、2F 托嬰與 4F 青少年志工活動。
+        - article [ref=e21]:
+          - paragraph [ref=e22]: 互動品質「良好以上」比例
+          - paragraph [ref=e23]: —
+          - paragraph [ref=e24]: 由老師與長輩簡易回饋 + AI 判讀綜合而成。
+        - article [ref=e25]:
+          - paragraph [ref=e26]: 最熱門空間
+          - paragraph [ref=e27]: —
+          - paragraph [ref=e28]: 依據館內平面圖卡片之即時空間利用率推算。
+      - generic [ref=e29]:
+        - generic [ref=e30]:
+          - generic [ref=e31]:
+            - heading "今日隔代共學時段一覽" [level=2] [ref=e32]
+            - paragraph [ref=e33]: 結合 1F、2F、4F 的共學活動，由管理端一眼掌握場次、位置與風險燈號。
+          - table "今日隔代共學場次表" [ref=e35]:
+            - rowgroup [ref=e36]:
+              - row "時段 樓層 / 空間 主題 參與對象 互動品質 狀態" [ref=e37]:
+                - cell "時段" [ref=e38]
+                - cell "樓層 / 空間" [ref=e39]
+                - cell "主題" [ref=e40]
+                - cell "參與對象" [ref=e41]
+                - cell "互動品質" [ref=e42]
+                - cell "狀態" [ref=e43]
+            - rowgroup
+        - generic [ref=e45]:
+          - heading "樓層空間利用率 · 管理者總覽" [level=2] [ref=e46]
+          - paragraph [ref=e47]: 與前台的「平面圖 + 即時空間利用率」卡片連動，這裡用更管理者的角度呈現每層樓與關鍵空間的狀態。
+      - generic [ref=e48]:
+        - generic [ref=e49]:
+          - heading "用 Gemini 3 Pro 幫我巡檢今天的隔代共學" [level=2] [ref=e50]
+          - paragraph [ref=e51]: 下方 Demo 會把「今日場次＋樓層利用率」餵給 AI，產生 3–4 點管理建議， 適合投影片或每日交班簡報直接貼上。
+        - generic [ref=e52]:
+          - button "產生今日「Ops 巡檢重點」建議" [ref=e53] [cursor=pointer]
+          - paragraph [ref=e54]:
+            - text: （依照權威實作方式，前端會呼叫
+            - code [ref=e55]: "puter.ai.chat(..., { model: 'gemini-3-pro-preview' })"
+            - text: ）
+```

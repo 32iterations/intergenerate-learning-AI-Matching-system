@@ -2,6 +2,9 @@ You are Claude working *inside* a hackathon repo for:
 
 > 「隔代共學 AI 媒合系統」@ 新竹市赤土崎多功能館
 
+Pexels API Key：3MIg8LdMhGoI049BwKKVmXHxp8alh7h6NSGHS8jALUqiNU4ImNLmdvTU 
+
+
 The goal is to win a local civic / gov hackathon by showing:
 - A visually strong, story-driven demo page
 - Clear value for families, elders, and the city government
