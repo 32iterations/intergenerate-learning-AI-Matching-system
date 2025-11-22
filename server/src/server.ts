@@ -128,22 +128,23 @@ mcpServer.registerTool(
     title: "Search intergenerational care images",
     description:
       "Searches Pexels for photos that fit intergenerational care / grandparents and children / community center scenes. Use this to suggest imagery for the Hsinchu 赤土崎館 demo.",
-    inputSchema: SearchImagesInput,
-    outputSchema: SearchImagesOutput,
+    inputSchema: SearchImagesInput as any,
+    outputSchema: SearchImagesOutput as any,
   },
-  async ({ query, perPage }) => {
+  (async (args: any) => {
+    const { query, perPage } = args as { query: string; perPage?: number };
     const images = await searchPexelsImages(query, perPage ?? 6);
     const output = { images };
     return {
       content: [
         {
-          type: "text",
+          type: "text" as const,
           text: JSON.stringify(output, null, 2),
         },
       ],
       structuredContent: output,
     };
-  }
+  }) as any
 );
 
 // ---------------- Express app ----------------
@@ -173,6 +174,7 @@ export function createApp() {
     try {
       const transport = new StreamableHTTPServerTransport({
         enableJsonResponse: true,
+        sessionIdGenerator: () => Math.random().toString(36).substring(7),
       });
 
       res.on("close", () => {

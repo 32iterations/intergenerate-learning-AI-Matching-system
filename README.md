@@ -106,4 +106,89 @@ intergen-hsinchu-hackathon/
       └─ SKILL.md            # 為本專案打造的前端設計 Skill
 ```
 
-你可以直接在這個資料夾跑 `claude code .`，把它當成黑客松專案的起點來擴充。
+你可以直接在這個資料夾跑 `claude code .`,把它當成黑客松專案的起點來擴充。
+
+---
+
+## 測試
+
+本專案採用 **TDD (測試驅動開發)** 和 **Boy Scout Rule** 原則,確保程式碼品質。
+
+### 執行後端測試
+
+```bash
+cd server
+
+# 執行所有測試(一次性)
+npm test
+
+# 執行測試並監聽變更(開發模式)
+npm run test:watch
+
+# 執行測試並產生覆蓋率報告
+npm run test:coverage
+
+# 執行測試並開啟 UI 介面
+npm run test:ui
+```
+
+### 測試架構
+
+- **單元測試**: `src/__tests__/imageSearch.test.ts`
+  - 測試圖片搜尋邏輯、查詢處理、錯誤處理
+  - 測試資料對映、URL 建構等核心功能
+
+- **整合測試**: `src/__tests__/api.test.ts`
+  - 測試 `/api/images` HTTP 端點
+  - 測試 CORS 設定
+  - 測試錯誤回應格式
+
+### 測試原則
+
+1. **TDD**: 先寫測試再寫實作,確保功能正確性
+2. **Boy Scout Rule**: 讓程式碼比發現時更乾淨
+3. **Small CLs**: 小步驟提交,每次只改一件事
+
+### CI/CD 注意事項
+
+在 CI 環境中執行測試時:
+- 測試設計為可在無 Pexels API key 的環境下執行
+- API 測試會檢查 200 或 500 狀態碼,兩者皆可接受
+- 建議在 CI 中設定 `PEXELS_API_KEY` 環境變數以測試完整功能
+
+---
+
+## 開發指南
+
+### 錯誤處理
+
+- **前端** (`main.js`, `admin.js`):
+  - 包含 `getUserFriendlyErrorMessage()` 工具函數
+  - 自動判斷網路錯誤、伺服器錯誤等情況
+  - 提供使用者友善的錯誤訊息
+
+- **後端** (`server.ts`):
+  - 完整的型別定義 (TypeScript strict mode)
+  - Try-catch 錯誤處理覆蓋所有 API 端點
+  - 結構化的錯誤回應格式
+
+### 程式碼品質
+
+- TypeScript strict mode 啟用
+- 完整的型別定義,避免 `any`
+- 錯誤處理一致性
+- 清楚的註解與文件
+
+---
+
+## 部署檢查清單
+
+在正式展示前,請確認:
+
+- [ ] Pexels API key 已設定於 `server/.env`
+- [ ] 後端伺服器正常啟動於 `http://localhost:3000`
+- [ ] 前端可正常存取後端 `/api/images` 端點
+- [ ] Puter.js 已正常載入 (Gemini 3 Pro 功能)
+- [ ] 所有測試通過 (`npm test`)
+- [ ] (選配) Spline 3D 場景 URL 已更新
+- [ ] (選配) Rive 動畫檔案已放置於 `frontend/assets/rive/`

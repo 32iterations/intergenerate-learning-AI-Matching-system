@@ -63,7 +63,7 @@ describe('Image Search Functionality', () => {
         photographer: 'Test',
         src: {
           large2x: 'https://example.com/large2x.jpg',
-        },
+        } as any,
       };
 
       const url =
