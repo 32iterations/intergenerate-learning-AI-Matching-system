@@ -1,21 +1,21 @@
 @import url("https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&display=swap");
 
 :root {
-  --color-bg: #0b1020;
-  --color-surface: #151b2e;
-  --color-surface-soft: #181f34;
+  --color-bg: #fefbf6;
+  --color-surface: #ffffff;
+  --color-surface-soft: #f9f6f1;
   --color-primary: #f5a623; /* 暖橘：夕陽照在赤土崎海面的感覺 */
-  --color-primary-soft: rgba(245, 166, 35, 0.12);
-  --color-accent: #46c3c6; /* 藍綠：海風與科技城 */
-  --color-border-subtle: rgba(255, 255, 255, 0.08);
-  --color-text: #f8fafc;
-  --color-text-muted: #9ca3af;
-  --color-chip-bg: rgba(248, 250, 252, 0.06);
+  --color-primary-soft: rgba(245, 166, 35, 0.08);
+  --color-accent: #0d9488; /* 藍綠：海風與科技城 */
+  --color-border-subtle: rgba(0, 0, 0, 0.08);
+  --color-text: #1a1a1a;
+  --color-text-muted: #6b7280;
+  --color-chip-bg: rgba(245, 166, 35, 0.06);
   --radius-xl: 24px;
   --radius-lg: 18px;
   --radius-md: 10px;
-  --shadow-soft: 0 24px 80px rgba(0, 0, 0, 0.5);
-  --shadow-elevated: 0 18px 60px rgba(0, 0, 0, 0.72);
+  --shadow-soft: 0 4px 24px rgba(0, 0, 0, 0.08);
+  --shadow-elevated: 0 8px 32px rgba(0, 0, 0, 0.12);
   --gap-section: 72px;
   --container-max: 1120px;
 }
@@ -31,7 +31,7 @@ body {
   min-height: 100vh;
   font-family: "Noto Sans TC", system-ui, -apple-system, BlinkMacSystemFont,
     "Segoe UI", sans-serif;
-  background: radial-gradient(circle at top, #111827 0, #020617 52%, #020617 100%);
+  background: linear-gradient(to bottom, #fef9f3 0%, #fefbf6 50%, #fff8f0 100%);
   color: var(--color-text);
 }
 
@@ -69,12 +69,13 @@ body {
   z-index: 40;
   background: linear-gradient(
     to bottom,
-    rgba(2, 6, 23, 0.96),
-    rgba(2, 6, 23, 0.94),
-    rgba(2, 6, 23, 0.75),
+    rgba(255, 255, 255, 0.98),
+    rgba(255, 255, 255, 0.95),
+    rgba(255, 255, 255, 0.85),
     transparent
   );
   backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--color-border-subtle);
 }
 
 .header-inner {
@@ -94,14 +95,14 @@ body {
   width: 32px;
   height: 32px;
   border-radius: 999px;
-  background: radial-gradient(circle at 30% 30%, #fef3c7, #f97316, #b91c1c);
+  background: radial-gradient(circle at 30% 30%, #fef3c7, #f97316, #ea580c);
   display: inline-flex;
   align-items: center;
   justify-content: center;
   font-weight: 700;
   font-size: 1.1rem;
-  color: #0b1020;
-  box-shadow: 0 0 0 1px rgba(248, 250, 252, 0.4);
+  color: #ffffff;
+  box-shadow: 0 2px 8px rgba(249, 115, 22, 0.3);
 }
 
 .brand-text {
@@ -196,8 +197,9 @@ body {
   border-radius: 999px;
   font-size: 0.78rem;
   background: var(--color-chip-bg);
-  border: 1px solid rgba(148, 163, 184, 0.35);
+  border: 1px solid rgba(245, 166, 35, 0.2);
   gap: 4px;
+  color: var(--color-text);
 }
 
 .hero-actions {
@@ -228,36 +230,38 @@ body {
     #fb8c00,
     var(--color-accent)
   );
-  color: #111827;
-  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.6);
+  color: #ffffff;
+  box-shadow: 0 4px 16px rgba(245, 166, 35, 0.3);
 }
 
 .btn-primary:hover {
   transform: translateY(-1px);
-  box-shadow: 0 18px 50px rgba(0, 0, 0, 0.7);
+  box-shadow: 0 8px 24px rgba(245, 166, 35, 0.4);
 }
 
 .btn-secondary {
-  background: rgba(15, 23, 42, 0.8);
+  background: var(--color-surface);
   color: var(--color-text);
   border-radius: 999px;
   padding-inline: 16px;
-  border: 1px solid rgba(148, 163, 184, 0.5);
+  border: 1px solid var(--color-border-subtle);
 }
 
 .btn-secondary:hover {
-  background: rgba(15, 23, 42, 1);
+  background: var(--color-surface-soft);
+  border-color: rgba(0, 0, 0, 0.15);
 }
 
 .btn-ghost {
   background: transparent;
   color: var(--color-text-muted);
-  border: 1px solid rgba(148, 163, 184, 0.4);
+  border: 1px solid var(--color-border-subtle);
 }
 
 .btn-ghost:hover {
   color: var(--color-text);
-  border-color: rgba(249, 250, 251, 0.8);
+  border-color: rgba(0, 0, 0, 0.2);
+  background: rgba(0, 0, 0, 0.02);
 }
 
 .hint {
@@ -269,8 +273,8 @@ body {
 .hero-visual-inner {
   position: relative;
   border-radius: var(--radius-xl);
-  background: radial-gradient(circle at top left, #1d293b, #020617 70%);
-  border: 1px solid rgba(148, 163, 184, 0.5);
+  background: linear-gradient(135deg, #fef3c7, #fed7aa, #fbbf24);
+  border: 1px solid rgba(245, 166, 35, 0.2);
   overflow: hidden;
   box-shadow: var(--shadow-soft);
   min-height: 320px;
@@ -280,7 +284,7 @@ body {
   width: 100%;
   height: 280px;
   display: block;
-  background: radial-gradient(circle at top, #1f2937, #020617 70%);
+  background: linear-gradient(135deg, rgba(254, 243, 199, 0.6), rgba(254, 215, 170, 0.8));
 }
 
 .hero-overlay-card {
@@ -290,8 +294,8 @@ body {
   bottom: 16px;
   padding: 12px 14px;
   border-radius: 18px;
-  background: rgba(15, 23, 42, 0.95);
-  border: 1px solid rgba(148, 163, 184, 0.6);
+  background: rgba(255, 255, 255, 0.98);
+  border: 1px solid var(--color-border-subtle);
   box-shadow: var(--shadow-elevated);
   font-size: 0.78rem;
 }
@@ -322,7 +326,7 @@ body {
 .flow {
   background: radial-gradient(
     circle at top,
-    rgba(56, 189, 248, 0.12),
+    rgba(13, 148, 136, 0.08),
     transparent 55%
   );
 }
@@ -336,15 +340,10 @@ body {
 
 .flow-step {
   padding: 16px 14px 18px;
-  background: linear-gradient(
-    145deg,
-    rgba(15, 23, 42, 0.96),
-    rgba(15, 23, 42, 0.96),
-    rgba(24, 35, 58, 0.98)
-  );
+  background: var(--color-surface);
   border-radius: var(--radius-lg);
   border: 1px solid var(--color-border-subtle);
-  box-shadow: 0 10px 30px rgba(15, 23, 42, 0.9);
+  box-shadow: var(--shadow-soft);
 }
 
 .flow-step-index {
@@ -370,7 +369,7 @@ body {
 /* Gallery */
 
 .gallery {
-  background: radial-gradient(circle at top right, #1e293b 0, #020617 60%);
+  background: radial-gradient(circle at top right, rgba(254, 243, 199, 0.3) 0%, transparent 60%);
 }
 
 .section-header-row {
@@ -390,8 +389,8 @@ body {
 .image-card {
   border-radius: 18px;
   overflow: hidden;
-  background: rgba(15, 23, 42, 0.96);
-  border: 1px solid rgba(148, 163, 184, 0.3);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border-subtle);
   box-shadow: var(--shadow-soft);
 }
 
@@ -419,10 +418,10 @@ body {
 .pitch-coach {
   background: radial-gradient(
       circle at top left,
-      rgba(245, 158, 11, 0.12),
+      rgba(245, 158, 11, 0.08),
       transparent 50%
     ),
-    radial-gradient(circle at bottom right, rgba(56, 189, 248, 0.16), transparent 55%);
+    radial-gradient(circle at bottom right, rgba(13, 148, 136, 0.08), transparent 55%);
 }
 
 .pitch-grid {
@@ -435,8 +434,8 @@ body {
 .pitch-notes {
   width: 100%;
   border-radius: 18px;
-  border: 1px solid rgba(148, 163, 184, 0.8);
-  background: rgba(15, 23, 42, 0.96);
+  border: 1px solid var(--color-border-subtle);
+  background: var(--color-surface);
   color: var(--color-text);
   padding: 12px 14px;
   font-family: inherit;
@@ -446,7 +445,13 @@ body {
 }
 
 .pitch-notes::placeholder {
-  color: rgba(148, 163, 184, 0.7);
+  color: var(--color-text-muted);
+}
+
+.pitch-notes:focus {
+  outline: none;
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px rgba(245, 166, 35, 0.1);
 }
 
 .pitch-actions {
@@ -458,8 +463,8 @@ body {
 
 .pitch-output-card {
   border-radius: var(--radius-lg);
-  background: rgba(15, 23, 42, 0.98);
-  border: 1px solid rgba(148, 163, 184, 0.7);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border-subtle);
   padding: 14px 14px 16px;
   box-shadow: var(--shadow-soft);
 }
@@ -479,9 +484,9 @@ body {
 /* Footer */
 
 .site-footer {
-  border-top: 1px solid rgba(148, 163, 184, 0.3);
+  border-top: 1px solid var(--color-border-subtle);
   padding: 18px 0 22px;
-  background: rgba(2, 6, 23, 0.96);
+  background: var(--color-surface-soft);
 }
 
 .footer-inner {
@@ -560,7 +565,7 @@ body {
 
 /* Floor usage (館內平面圖 + 即時空間利用率) */
 .floor-usage {
-  background: radial-gradient(circle at top left, rgba(56, 189, 248, 0.12), transparent 55%);
+  background: radial-gradient(circle at top left, rgba(13, 148, 136, 0.08), transparent 55%);
 }
 
 .floor-usage-grid {
@@ -571,13 +576,14 @@ body {
 }
 
 .floor-plan-shell {
-  background: radial-gradient(circle at top, rgba(15, 23, 42, 0.98), rgba(15, 23, 42, 0.98));
+  background: var(--color-surface);
   border-radius: var(--radius-lg);
   border: 1px solid var(--color-border-subtle);
   padding: 18px;
   display: flex;
   flex-direction: column;
   gap: 12px;
+  box-shadow: var(--shadow-soft);
 }
 
 .floor-plan-title {
@@ -607,12 +613,18 @@ body {
 }
 
 .floor-plan-select select {
-  background: rgba(15, 23, 42, 0.9);
+  background: var(--color-surface);
   border-radius: 999px;
   border: 1px solid var(--color-border-subtle);
   color: var(--color-text);
   padding: 6px 12px;
   font-size: 0.86rem;
+}
+
+.floor-plan-select select:focus {
+  outline: none;
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px rgba(245, 166, 35, 0.1);
 }
 
 .floor-plan-grid {
@@ -624,9 +636,9 @@ body {
 
 .floor-plan-room {
   border-radius: var(--radius-md);
-  border: 1px solid rgba(148, 163, 184, 0.5);
+  border: 1px solid var(--color-border-subtle);
   padding: 8px 10px;
-  background: linear-gradient(145deg, rgba(15, 23, 42, 0.98), rgba(15, 23, 42, 0.96));
+  background: var(--color-surface-soft);
 }
 
 .floor-plan-room__name {
@@ -648,8 +660,8 @@ body {
   padding: 2px 8px;
   border-radius: 999px;
   font-size: 0.72rem;
-  background: rgba(15, 118, 110, 0.18);
-  color: #a5f3fc;
+  background: rgba(13, 148, 136, 0.1);
+  color: #0f766e;
 }
 
 .floor-plan-room__value {
@@ -661,10 +673,11 @@ body {
   border-radius: var(--radius-lg);
   border: 1px solid var(--color-border-subtle);
   padding: 18px;
-  background: rgba(15, 23, 42, 0.98);
+  background: var(--color-surface);
   display: flex;
   flex-direction: column;
   gap: 12px;
+  box-shadow: var(--shadow-soft);
 }
 
 .floor-legend-subtitle {
@@ -699,7 +712,7 @@ body {
   position: relative;
   height: 6px;
   border-radius: 999px;
-  background: rgba(31, 41, 55, 1);
+  background: rgba(0, 0, 0, 0.08);
   overflow: hidden;
 }
 
@@ -712,7 +725,7 @@ body {
 }
 
 .floor-ai-footer {
-  border-top: 1px solid rgba(148, 163, 184, 0.4);
+  border-top: 1px solid var(--color-border-subtle);
   padding-top: 10px;
   margin-top: 8px;
 }
@@ -741,11 +754,12 @@ body {
   border-radius: var(--radius-lg);
   border: 1px solid var(--color-border-subtle);
   padding: 18px;
-  background: radial-gradient(circle at top, rgba(56, 189, 248, 0.18), rgba(15, 23, 42, 0.98));
+  background: var(--color-surface);
   display: grid;
   grid-template-columns: minmax(0, 1.2fr) minmax(0, 1.4fr);
   gap: 16px;
   align-items: center;
+  box-shadow: var(--shadow-soft);
 }
 
 .flow-rive-copy h3 {
@@ -762,8 +776,8 @@ body {
 .rive-wrapper {
   border-radius: var(--radius-md);
   overflow: hidden;
-  border: 1px solid rgba(148, 163, 184, 0.6);
-  background: #020617;
+  border: 1px solid var(--color-border-subtle);
+  background: var(--color-surface-soft);
   position: relative;
 }
 
@@ -778,8 +792,8 @@ body {
   padding: 6px 10px;
   font-size: 0.72rem;
   color: var(--color-text-muted);
-  border-top: 1px solid rgba(148, 163, 184, 0.4);
-  background: rgba(15, 23, 42, 0.98);
+  border-top: 1px solid var(--color-border-subtle);
+  background: var(--color-surface);
 }
 
 /* Responsive tweaks for floor usage + Rive */
@@ -805,7 +819,8 @@ body {
   border-radius: var(--radius-lg);
   border: 1px solid var(--color-border-subtle);
   padding: 14px 16px;
-  background: radial-gradient(circle at top left, rgba(56, 189, 248, 0.14), rgba(15, 23, 42, 0.98));
+  background: var(--color-surface);
+  box-shadow: var(--shadow-soft);
 }
 
 .metric-label {
@@ -837,7 +852,8 @@ body {
   border-radius: var(--radius-lg);
   border: 1px solid var(--color-border-subtle);
   padding: 16px 18px;
-  background: rgba(15, 23, 42, 0.98);
+  background: var(--color-surface);
+  box-shadow: var(--shadow-soft);
 }
 
 .dashboard-panel--ai {
@@ -859,7 +875,7 @@ body {
 .table-wrapper {
   margin-top: 14px;
   border-radius: var(--radius-md);
-  border: 1px solid rgba(148, 163, 184, 0.5);
+  border: 1px solid var(--color-border-subtle);
   overflow: hidden;
 }
 
@@ -870,13 +886,13 @@ body {
 }
 
 .data-table thead {
-  background: rgba(15, 23, 42, 0.98);
+  background: var(--color-surface-soft);
 }
 
 .data-table th,
 .data-table td {
   padding: 8px 10px;
-  border-bottom: 1px solid rgba(30, 64, 175, 0.35);
+  border-bottom: 1px solid var(--color-border-subtle);
 }
 
 .data-table th {
@@ -887,11 +903,11 @@ body {
 }
 
 .data-table tbody tr:nth-child(odd) {
-  background: rgba(15, 23, 42, 0.96);
+  background: var(--color-surface);
 }
 
 .data-table tbody tr:nth-child(even) {
-  background: rgba(15, 23, 42, 0.94);
+  background: var(--color-surface-soft);
 }
 
 /* Tags for互動品質 */
@@ -904,23 +920,23 @@ body {
 }
 
 .tag--success {
-  background: rgba(22, 163, 74, 0.16);
-  color: #bbf7d0;
+  background: rgba(22, 163, 74, 0.1);
+  color: #15803d;
 }
 
 .tag--info {
-  background: rgba(37, 99, 235, 0.16);
-  color: #bfdbfe;
+  background: rgba(37, 99, 235, 0.1);
+  color: #1e40af;
 }
 
 .tag--warning {
-  background: rgba(250, 204, 21, 0.16);
-  color: #fef08a;
+  background: rgba(245, 158, 11, 0.1);
+  color: #b45309;
 }
 
 .tag--danger {
-  background: rgba(239, 68, 68, 0.16);
-  color: #fecaca;
+  background: rgba(239, 68, 68, 0.1);
+  color: #b91c1c;
 }
 
 /* Admin floor summary cards */
@@ -933,9 +949,10 @@ body {
 
 .admin-floor-card {
   border-radius: var(--radius-md);
-  border: 1px solid rgba(148, 163, 184, 0.5);
+  border: 1px solid var(--color-border-subtle);
   padding: 10px 12px;
-  background: radial-gradient(circle at top left, rgba(52, 211, 153, 0.16), rgba(15, 23, 42, 0.98));
+  background: var(--color-surface);
+  box-shadow: var(--shadow-soft);
 }
 
 .admin-floor-row {
@@ -969,7 +986,8 @@ body {
   padding: 2px 8px;
   border-radius: 999px;
   font-size: 0.72rem;
-  background: rgba(15, 23, 42, 0.9);
+  background: var(--color-surface-soft);
+  border: 1px solid var(--color-border-subtle);
 }
 
 .admin-floor-bar {
@@ -977,7 +995,7 @@ body {
   position: relative;
   height: 6px;
   border-radius: 999px;
-  background: rgba(15, 23, 42, 1);
+  background: rgba(0, 0, 0, 0.08);
   overflow: hidden;
 }
 
@@ -1006,10 +1024,11 @@ body {
 .ai-output--block {
   min-height: 80px;
   border-radius: var(--radius-md);
-  border: 1px dashed rgba(148, 163, 184, 0.7);
+  border: 1px dashed var(--color-border-subtle);
   padding: 10px 12px;
   font-size: 0.82rem;
   line-height: 1.7;
+  background: var(--color-surface-soft);
 }
 
 /* Responsive for admin dashboard */
