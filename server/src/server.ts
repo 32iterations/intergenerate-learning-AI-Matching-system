@@ -9,13 +9,21 @@ import * as z from "zod/v4";
 dotenv.config();
 
 const PEXELS_API_KEY = process.env.PEXELS_API_KEY || "";
+const OPENROUTER_API_KEY = process.env.OPENROUTER_API_KEY || "";
 const PORT = parseInt(process.env.PORT || "3000", 10);
 const DEFAULT_SEARCH_QUERY = "Taiwan grandparents children community center";
 const PEXELS_API_BASE_URL = "https://api.pexels.com/v1/search";
+const OPENROUTER_API_BASE_URL = "https://openrouter.ai/api/v1/chat/completions";
 
 if (!PEXELS_API_KEY) {
   console.warn(
     "[warning] PEXELS_API_KEY is not set. Image search and MCP tools will fail until you configure it in .env."
+  );
+}
+
+if (!OPENROUTER_API_KEY) {
+  console.warn(
+    "[warning] OPENROUTER_API_KEY is not set. AI chat features will fail until you configure it in .env. Get your key at: https://openrouter.ai/keys"
   );
 }
 
@@ -164,6 +172,65 @@ export function createApp() {
       console.error("[/api/images] error:", err);
       res.status(500).json({
         error: "Image search failed",
+        detail: String(err?.message || err)
+      });
+    }
+  });
+
+  // AI Chat endpoint using OpenRouter
+  app.post("/api/chat", async (req, res) => {
+    try {
+      if (!OPENROUTER_API_KEY || OPENROUTER_API_KEY === "your_openrouter_api_key_here") {
+        return res.status(503).json({
+          error: "OpenRouter API key not configured",
+          detail: "Please set OPENROUTER_API_KEY in your .env file. Get your key at https://openrouter.ai/keys"
+        });
+      }
+
+      const { prompt, model = "google/gemini-2.0-flash-exp:free" } = req.body;
+
+      if (!prompt) {
+        return res.status(400).json({
+          error: "Missing prompt",
+          detail: "Please provide a 'prompt' in the request body"
+        });
+      }
+
+      const response = await fetch(OPENROUTER_API_BASE_URL, {
+        method: "POST",
+        headers: {
+          "Authorization": `Bearer ${OPENROUTER_API_KEY}`,
+          "Content-Type": "application/json",
+          "HTTP-Referer": "http://localhost:3001",
+          "X-Title": "Hsinchu Intergen AI Matching System"
+        },
+        body: JSON.stringify({
+          model,
+          messages: [
+            {
+              role: "user",
+              content: prompt
+            }
+          ]
+        })
+      });
+
+      if (!response.ok) {
+        const errorText = await response.text();
+        throw new Error(`OpenRouter API error: ${response.status} - ${errorText}`);
+      }
+
+      const data = await response.json() as any;
+      const message = data?.choices?.[0]?.message?.content || "";
+
+      res.json({
+        message,
+        model: data?.model || model
+      });
+    } catch (err: any) {
+      console.error("[/api/chat] error:", err);
+      res.status(500).json({
+        error: "AI chat failed",
         detail: String(err?.message || err)
       });
     }

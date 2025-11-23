@@ -177,10 +177,9 @@ ${notes || "（沒有特別補充，請自行發揮，但要聚焦在：幫忙�
 async function runPitchCoach({ language }) {
   const notesEl = document.getElementById("pitch-notes");
   const outputEl = document.getElementById("pitch-output");
-  if (!notesEl || !outputEl || typeof window.puter === "undefined") {
+  if (!notesEl || !outputEl) {
     if (outputEl) {
-      outputEl.textContent =
-        "目前無法連線到 Puter.js，請確認 <script src="https://js.puter.com/v2/"></script> 是否成功載入。";
+      outputEl.textContent = "無法找到必要的 DOM 元素。";
     }
     return;
   }
@@ -191,23 +190,24 @@ async function runPitchCoach({ language }) {
   outputEl.textContent = "Gemini 3 Pro 正在思考中⋯";
 
   try {
-    const result = await window.puter.ai.chat(prompt, {
-      model: "gemini-3-pro-preview",
+    const response = await fetch("/api/chat", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        prompt,
+        model: "google/gemini-2.0-flash-exp:free"
+      }),
     });
 
-    let text;
-    if (typeof result === "string") {
-      text = result;
-    } else if (result && typeof result === "object") {
-      text =
-        result.output ||
-        result.output_text ||
-        result.message ||
-        result.text ||
-        JSON.stringify(result, null, 2);
-    } else {
-      text = String(result);
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw new Error(errorData.detail || errorData.error || "API 請求失敗");
     }
+
+    const data = await response.json();
+    const text = data.message || "AI 未返回有效回應";
 
     outputEl.textContent = text;
   } catch (err) {
@@ -495,7 +495,7 @@ function initFloorUsage() {
   const aiBtn = document.getElementById("ai-floor-summary-btn");
   const aiOutputEl = document.getElementById("ai-floor-summary-output");
 
-  if (aiBtn && aiOutputEl && typeof window.puter !== "undefined") {
+  if (aiBtn && aiOutputEl) {
     aiBtn.addEventListener("click", async () => {
       const floorKey = selectEl.value || "1F";
       const data = FLOOR_DATA[floorKey];
@@ -529,20 +529,25 @@ ${JSON.stringify(payload, null, 2)}
 語氣請偏向專業但溫暖，適合出現在簡報或 Dashboard 側邊說明。`.trim();
 
       try {
-        const response = await window.puter.ai.chat(prompt, {
-          model: "gemini-3-pro-preview",
+        const response = await fetch("/api/chat", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            prompt,
+            model: "google/gemini-2.0-flash-exp:free"
+          }),
         });
 
-        let text;
-        if (typeof response === "string") {
-          text = response;
-        } else if (response && typeof response === "object") {
-          text =
-            response.output ||
-            response.message ||
-            (Array.isArray(response.choices) && response.choices[0]?.message) ||
-            JSON.stringify(response);
-        } else {
+        if (!response.ok) {
+          const errorData = await response.json();
+          throw new Error(errorData.detail || errorData.error || "API 請求失敗");
+        }
+
+        const data = await response.json();
+        let text = data.message || "AI 未返回有效回應";
+        if (typeof text !== "string") {
           text = "AI 回傳了非預期格式的結果，請稍後再試一次。";
         }
 
