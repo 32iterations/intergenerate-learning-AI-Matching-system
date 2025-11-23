@@ -1,0 +1,22 @@
+# Render.com Blueprint for 隔代共學 AI 媒合系統
+# 使用此檔案可一鍵部署到 Render.com（免費方案）
+
+services:
+  # Web Service - Express Server serving Frontend + API
+  - type: web
+    name: hsinchu-intergen-app
+    env: node
+    region: singapore  # 選擇新加坡節點，離台灣較近
+    plan: free  # 免費方案（有 15 分鐘無活動會休眠）
+    buildCommand: cd server && npm install && npm run build
+    startCommand: cd server && node dist/server.js
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 3001
+      - key: PEXELS_API_KEY
+        sync: false  # 需要手動在 Render Dashboard 設定
+    healthCheckPath: /api/images
+    autoDeploy: true
+    branch: main

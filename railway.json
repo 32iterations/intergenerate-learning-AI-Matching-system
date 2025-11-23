@@ -1,0 +1,17 @@
+{
+  "$schema": "https://railway.app/railway.schema.json",
+  "build": {
+    "builder": "NIXPACKS",
+    "buildCommand": "cd server && npm install && npm run build"
+  },
+  "deploy": {
+    "startCommand": "cd server && node dist/server.js",
+    "restartPolicyType": "ON_FAILURE",
+    "restartPolicyMaxRetries": 10
+  },
+  "healthcheck": {
+    "path": "/api/images",
+    "timeout": 30,
+    "interval": 30
+  }
+}

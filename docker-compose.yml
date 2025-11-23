@@ -1,0 +1,33 @@
+version: '3.8'
+
+services:
+  # 隔代共學 AI 媒合系統 - Web Application
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: hsinchu-intergen-app
+    ports:
+      - "3001:3001"
+    environment:
+      - NODE_ENV=production
+      - PORT=3001
+      - PEXELS_API_KEY=${PEXELS_API_KEY}
+    env_file:
+      - server/.env
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:3001/api/images"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    networks:
+      - intergen-network
+    labels:
+      - "com.hsinchu.app=intergen-learning"
+      - "com.hsinchu.hackathon=2025"
+
+networks:
+  intergen-network:
+    driver: bridge
